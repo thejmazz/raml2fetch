@@ -1,0 +1,70 @@
+#%RAML 1.0
+title: todos
+
+types:
+  Todo:
+    properties:
+      content: string
+      completed: boolean
+      id: number
+    example:
+      content: "Make lunch"
+      completed: true
+      id: 2
+
+
+/todos:
+  post:
+    body:
+      application/json:
+        properties:
+          content: string
+        example:
+          content: "Buy eggs"
+    responses:
+      200:
+        body:
+          application/json:
+            type: Todo
+
+  /all:
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+              type: Todo[]
+
+  /{id}:
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+              properties:
+                content: string
+                completed: boolean
+    delete:
+      responses:
+        204:
+          body:
+            application/json:
+              properties:
+                success: boolean
+                message: string
+
+    put:
+      body:
+        application/json:
+          properties:
+            completed: boolean
+      responses:
+        200:
+          body:
+            application/json:
+              properties:
+                content: string
+                completed: boolean
+              example:
+                content: "Buy eggs"
+                completed: true

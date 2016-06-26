@@ -1,0 +1,30 @@
+{
+  "name": "raml2fetch",
+  "version": "0.0.9",
+  "description": "Wrapper around fetch given a RAML API definition.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test/todos/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thejmazz/raml2fetch.git"
+  },
+  "keywords": [
+    "raml",
+    "fetch",
+    "api"
+  ],
+  "author": "Julian Mazzitelli <mazzitelli.julian@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/thejmazz/raml2fetch/issues"
+  },
+  "homepage": "https://github.com/thejmazz/raml2fetch#readme",
+  "devDependencies": {
+    "mocha": "^2.5.3"
+  },
+  "dependencies": {
+    "isomorphic-fetch": "^2.2.1"
+  }
+}
