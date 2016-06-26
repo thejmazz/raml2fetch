@@ -2,42 +2,49 @@
 
 const path = require('path')
 const raml2fetch = require('../..')
+const assert = require('chai').assert
 
-const api = raml2fetch(path.resolve(__dirname, 'todos.raml'))
+const ramlPath = path.resolve(__dirname, 'todos.raml')
+console.log(ramlPath)
+
+const api = raml2fetch(ramlPath)
 
 console.log(api)
 
-// for (let route in api) {
-//   for (let method in api[route]) {
-//     const endpoint = api[route][method]
-//
-//     console.log(method)
-//
-//     endpoint()
-//       .then(data => console.log(data))
-//       .catch(err => console.error(err))
-//   }
-// }
+// api['/todos'].post()
+// api['/todos/all'].get()
+// api['/todos/{id}'].get()
+// api['/todos/{id}'].put()
+// api['/todos/{id}'].delete()
 
-api['/todos'].post()
-  .then(data => console.log(data))
-  .catch(err => console.error(err))
+describe('raml2fetch', function() {
+  describe('before fetch', function() {
+    it('Should reject when a body is not provided', function(done) {
+      api['/todos'].post()
+        .catch(err => done())
+    })
 
-api['/todos/all'].get()
-  .then(data => console.log(data))
-  .catch(err => console.error(err))
+    it('Should reject when a body is unnecesarily provided', function(done) {
+      api['/todos/all'].get({ foo: 'bar' })
+        .catch(err => done())
+    })
 
-api['/todos/{id}'].get()
-  .then(data => console.log(data))
-  .catch(err => console.error(err))
+    it('Should reject if provided body does not match schema', function(done) {
+      api['/todos'].post({ content: 42} )
+        .then(() => done(new Error('Should not have resolved')))
+        .catch(err => done())
+    })
 
-api['/todos/{id}'].put()
-  .then(data => console.log(data))
-  .catch(err => console.error(err))
+    it('Should pass schema', function(done) {
+      api['/todos'].post({ content: 'Buy eggs' })
+        .then(() => done())
+        .catch(done)
+    })
 
-api['/todos/{id}'].delete()
-  .then(data => console.log(data))
-  .catch(err => console.error(err))
-
+    // it('Should reject if url params do not match schema', function(done) {
+    //   done(new Error('TODO'))
+    // })
+  })
+})
 
 // console.log(JSON.stringify(api, null, 2))
