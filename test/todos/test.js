@@ -5,11 +5,9 @@ const raml2fetch = require('../..')
 const assert = require('chai').assert
 
 const ramlPath = path.resolve(__dirname, 'todos.raml')
-console.log(ramlPath)
+const BASE_URL = 'http://localhost:3000'
 
-const api = raml2fetch(ramlPath)
-
-console.log(api)
+const api = raml2fetch(ramlPath, BASE_URL)
 
 // api['/todos'].post()
 // api['/todos/all'].get()
@@ -41,9 +39,21 @@ describe('raml2fetch', function() {
         .catch(done)
     })
 
-    // it('Should reject if url params do not match schema', function(done) {
-    //   done(new Error('TODO'))
-    // })
+    it('Should reject if url params do not match schema', function(done) {
+      done(new Error('TODO'))
+    })
+  })
+
+  describe('after fetch', function() {
+    it('Should match response body schema for given response code', function(done) {
+      api['/todos'].post({ content: 'Buy eggs' })
+        .then(() => done())
+        .catch(done)
+    })
+
+    it('Should reject if response body schema has a type mismatch', function(done) {
+      done(new Error('TODO'))
+    })
   })
 })
 
